@@ -28,17 +28,19 @@ global score
 score = 0
 timer_shoot = 0
 
+# create text surface for score
 text_surface = my_font.render('Score: ' + str(score), False, (255, 255, 255))
  
-x1 = 300
-y1 = 300
+# more variables and it's more about movement etc
+x1 = 396
+y1 = 524
  
 x1_change = 0       
 y1_change = 0
 
 speed = 8
 
-# player and bullets list
+# player obj lists and timer
 player = Player(x1, y1, speed, white)
 bullets = []
 
@@ -51,6 +53,8 @@ enemyPassed = 0
  
 # clock and redraw function
 clock = pygame.time.Clock()
+
+# function update for objects
 def update(object, have_wallcolision: bool, have_bulletcolision: bool, list=None):
     object.update()
     if have_wallcolision:
@@ -76,7 +80,7 @@ def update(object, have_wallcolision: bool, have_bulletcolision: bool, list=None
                     score = score + 1
                     
     
-
+# function redraw
 def redraw():
 
     for enemy in enemies:
@@ -87,7 +91,8 @@ def redraw():
         player.draw(dis)
 
     pygame.display.update()
- 
+
+# spawn objects enemy and put in the list
 def spawnEnemy(list):
     enemy_x = 0
     enemy_y = 0
@@ -101,8 +106,6 @@ def spawnEnemy(list):
     elif score > 40:
         timer_point = 10
 
-    
-
     if timer >= timer_point:
         enemy_x = randint(10, 790)
         list.append(Enemy(enemy_x, 10))
@@ -110,9 +113,8 @@ def spawnEnemy(list):
     elif timer < 50:
         timer = timer + 1
 
-
+# main function loop of the game
 while not game_over:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
@@ -130,12 +132,12 @@ while not game_over:
     # update enemies
     for enemy in enemies[:]:
         update(enemy, True, True, enemies)
+    spawnEnemy(enemies)
 
     # stars
     # starsanimated.stars(dis)
     
     timer_shoot += 1
-    spawnEnemy(enemies)
     if enemyPassed < 6:
         player.controls()
     dis.fill(black)
@@ -145,6 +147,7 @@ while not game_over:
     redraw()
 
     clock.tick_busy_loop(20)
+    print(str(player.x1) + str(player.y1))
  
  
 pygame.quit()
