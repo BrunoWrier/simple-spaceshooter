@@ -4,6 +4,8 @@ from bulletclass import Bullet
 from playerclass import Player
 from enemyclass import Enemy
 # import starsanimated
+import sys
+
 
 # starting pygame
 pygame.init()
@@ -151,4 +153,4 @@ while not game_over:
  
  
 pygame.quit()
-quit()
+sys.exit()
